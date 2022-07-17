@@ -1,0 +1,38 @@
+<table class="table">
+<thead>
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Secret</th>
+    <th scope="col">Provider name</th>
+    <th scope="col">Daily refresh</th>
+    <th scope="col">Last success at</th>
+    <th scope="col">Status</th>
+    <th scope="col">Country code</th>
+    <th scope="col">Actions</th>
+    <th scope="col">Accounts</th>
+    <th scope="col">Transactions</th>
+  </tr>
+</thead>
+
+<tbody>
+<% @customer.connections.each do |connection| %>
+    <tr>
+      <th scope="row"><%= connection.id %></th>
+      <td><%= connection.secret %></td>
+      <td><%= connection.provider_name %></td>
+      <td><%= connection.daily_refresh %></td>
+      <td><%= connection.last_success_at %></td>
+      <td><%= connection.status %></td>
+      <td><%= connection.country_code %></td>
+      <td>
+         <button class="btn btn-success">Refresh</button>
+         <button class="btn btn-warning">Recconect</button>
+         <button class="btn btn-danger">Delete</button>
+      </td>
+      <td><button class="btn btn-info">Go</button></td>
+      <td><button class="btn btn-info">Go</button></td>
+    </tr> 
+  <% end %>
+ 
+</tbody>
+</table>

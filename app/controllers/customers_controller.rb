@@ -1,7 +1,4 @@
 class CustomersController < ApplicationController
-    require 'net/http'
-    require 'uri'
-    require 'json'
 
     def new 
         @customer = Customer.new
@@ -34,35 +31,6 @@ class CustomersController < ApplicationController
 
 
      end
-
-     private
-     def create_customer_api
-      response = ApiHelper.create_customer(customer_params["identifier"])
-      identifier = customer_params["identifier"]
-
-      uri = URI.parse("https://www.saltedge.com/api/v5/customers")
-      request = Net::HTTP::Post.new(uri)
-      request.content_type = "application/json"
-      request["Accept"] = "application/json"
-      request["App-Id"] = App_Id
-      request["Secret"] = Secret
-      request.body = JSON.dump({
-        "data" => {
-          "identifier" => identifier
-        }
-      })
-      
-      req_options = {
-        use_ssl: uri.scheme == "https",
-      }
-  
-       Net::HTTP.start(uri.host, uri.port, req_options) do |http|
-       response = http.request(request)
-       error = nil
-
-        JSON.parse(response.body)
-       end
-    end
     
   private
   def customer_params

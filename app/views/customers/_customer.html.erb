@@ -7,6 +7,7 @@
     <th scope="col">Blocked_at</th>
     <th scope="col">Created_at</th>
     <th scope="col">Updated_at</th>
+    <th scope="col">Connections</th>
   </tr>
 </thead>
 
@@ -20,6 +21,7 @@
       <td><%= customer.blocked_at %></td>
       <td><%= customer.created_at %></td>
       <td><%= customer.updated_at %></td>
+      <td><%= button_to "GO", customer_connections_path(customer.id), method: :get%></td>
     </tr> 
   <% end %>
  

@@ -1,3 +1,7 @@
+require 'net/http'
+require 'uri'
+require 'json'
+
 class ApplicationController < ActionController::Base
     protected
   def authenticate_user!
