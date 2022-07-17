@@ -1,0 +1,27 @@
+<table class="table">
+<thead>
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Identifier</th>
+    <th scope="col">Secret</th>
+    <th scope="col">Blocked_at</th>
+    <th scope="col">Created_at</th>
+    <th scope="col">Updated_at</th>
+  </tr>
+</thead>
+
+
+<tbody>
+<% @user.customers.each do |customer| %>
+    <tr>
+      <th scope="row"><%= customer.id %></th>
+      <td><%= customer.identifier %></td>
+      <td><%= customer.secret %></td>
+      <td><%= customer.blocked_at %></td>
+      <td><%= customer.created_at %></td>
+      <td><%= customer.updated_at %></td>
+    </tr> 
+  <% end %>
+ 
+</tbody>
+</table>

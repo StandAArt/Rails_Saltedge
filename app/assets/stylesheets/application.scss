@@ -1,0 +1,47 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+body {
+  background: #F8F8FF;
+  }
+
+nav.navbar {
+  background: #F8F8FF;
+  border: none;
+}
+
+.nav.navbar-nav.nav-text li a {
+  font-size: 25px;
+  font-weight: bold;
+  color: #75D701;
+}
+
+.landing-text {
+  text-align: center;
+  color: #56A902;
+  h1 {
+    font-size: 100px;
+    font-weight: bold;
+  }
+  h2 {
+    font-size: 50px;
+    font-weight: bold;
+
+  }
+}
+
+.alert{
+  color: red;
+  border: 1px solid red;
+  border-radius: 2%;
+}
+
+.notice{
+  color: blue;
+  border: 1px solid blue;
+  border-radius: 2%;
+}
+
+.container-fluid{
+  padding-left: 25px;
+}
