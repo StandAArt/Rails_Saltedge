@@ -11,9 +11,9 @@ class CustomersController < ApplicationController
        @user = current_user      
 
       if Customer.where(:identifier => customer_params["identifier"]).blank?
-        response = create_customer_api
+        response = ApiHelper.create_customer(customer_params["identifier"])
      
-        if response["error"] != nil
+        if response["error"].present?
           redirect_to new_customer_path, alert: response["error"]["message"]
         else
           @customer = Customer.new(
@@ -37,6 +37,7 @@ class CustomersController < ApplicationController
 
      private
      def create_customer_api
+      response = ApiHelper.create_customer(customer_params["identifier"])
       identifier = customer_params["identifier"]
 
       uri = URI.parse("https://www.saltedge.com/api/v5/customers")
@@ -59,7 +60,7 @@ class CustomersController < ApplicationController
        response = http.request(request)
        error = nil
 
-        return JSON.parse(response.body)
+        JSON.parse(response.body)
        end
     end
     
