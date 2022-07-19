@@ -16,10 +16,9 @@ class CustomersController < ApplicationController
           @customer = Customer.new(
             identifier: response["data"]["identifier"],
             secret: response["data"]["secret"],
-            user_id: @user.id
+            user_id: @user.id,
+            customer_string_id: response["data"]["id"]
           )
-
-          @test = @customer
 
           @customer.save
           redirect_to root_path

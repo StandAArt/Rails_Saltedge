@@ -4,35 +4,45 @@
     <th scope="col">Id</th>
     <th scope="col">Secret</th>
     <th scope="col">Provider name</th>
-    <th scope="col">Daily refresh</th>
     <th scope="col">Last success at</th>
+    <th scope="col">Updated at</th>
     <th scope="col">Status</th>
     <th scope="col">Country code</th>
     <th scope="col">Actions</th>
     <th scope="col">Accounts</th>
-    <th scope="col">Transactions</th>
   </tr>
 </thead>
 
 <tbody>
 <% @customer.connections.each do |connection| %>
     <tr>
-      <th scope="row"><%= connection.id %></th>
+      <th scope="row"><%= connection.connection_string_id %></th>
       <td><%= connection.secret %></td>
       <td><%= connection.provider_name %></td>
-      <td><%= connection.daily_refresh %></td>
       <td><%= connection.last_success_at %></td>
+      <td><%= connection.updated_at %></td>
       <td><%= connection.status %></td>
       <td><%= connection.country_code %></td>
       <td>
-         <button class="btn btn-success">Refresh</button>
-         <button class="btn btn-warning">Recconect</button>
-         <button class="btn btn-danger">Delete</button>
+       <ul class="list-inline">
+        <li class="list-inline-item">
+         <%= button_to "Refresh", { action: "update", id: connection.id, connection_secret: connection.secret,
+          customer_secret: @customer.secret, connection_string_id: connection.connection_string_id, perform_action: "refresh" }, method: :put, class: "btn btn-success" %>
+        <li>
+        <li class="list-inline-item">
+         <%= button_to "Reconnect", { action: "update", id: connection.id, connection_secret: connection.secret,
+          perform_action: "reconnect", connection_string_id: connection.connection_string_id, customer_secret: @customer.secret }, method: :put, class: "btn btn-warning" %>
+        <li>
+        <li class="list-inline-item">
+           <%= button_to "Delete", { action: "destroy", id: connection.id, connection_string_id: connection.connection_string_id,
+               customer_secret: @customer.secret }, method: :delete, class: "btn btn-danger" %>
+         <li>
+      </ul>
       </td>
-      <td><button class="btn btn-info">Go</button></td>
       <td><button class="btn btn-info">Go</button></td>
     </tr> 
   <% end %>
  
 </tbody>
 </table>
+
