@@ -1,6 +1,6 @@
 module TransactionsHelper
-    def self.create_update_transactions_for_accounts(connection_string_Id, account_string_id, account_id, api_call_number)
-        response = ApiHelper.get_transactions_api_request(connection_string_Id, account_string_id)
+    def self.create_update_transactions_for_accounts(connection_string_Id, account_string_id, account_id, api_call_number, from_id = nil)
+        response = ApiHelper.get_transactions_api_request(connection_string_Id, account_string_id, from_id)
 
         if !response["data"].present? && api_call_number < Max_Api_Call_Number
             api_call_number += 1
@@ -10,6 +10,11 @@ module TransactionsHelper
 
          if !response["error"].present? 
             create_update_transaction_in_db(account_id, response)
+         end
+
+         if response["meta"]["next_page"].present?
+            create_update_transactions_for_accounts(connection_string_id, api_call_number, response["meta"]["next_id"])
+            return
          end
     end
 

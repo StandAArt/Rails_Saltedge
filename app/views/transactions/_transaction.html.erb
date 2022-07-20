@@ -1,0 +1,25 @@
+<table class="table">
+<thead>
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Made On</th>
+    <th scope="col">Category</th>
+    <th scope="col">Description</th>
+    <th scope="col">Amount</th>
+  </tr>
+</thead>
+
+<tbody>
+<% @account.transactions.each do |transaction| %>
+    <tr>
+      <th scope="row"><%= transaction.transaction_string_id %></th>
+      <td><%= transaction.made_on %></td>
+      <td><%= transaction.category %></td>
+      <td><%= transaction.description %></td>
+      <td><%= transaction.amount %> <%= transaction.currency_code %></td>
+    </tr> 
+  <% end %>
+ 
+</tbody>
+</table>
+

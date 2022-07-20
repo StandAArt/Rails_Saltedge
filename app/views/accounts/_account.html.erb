@@ -16,7 +16,7 @@
       <th scope="row"><%= account.account_string_id %></th>
       <td><%= account.name %></td>
       <td><%= account.nature %></td>
-      <td><%= account.transactions.count %></td>
+      <td><%= button_to "#{account.transactions.count}", customer_connection_account_transactions_path(@customer.id, @connection.id, account.id), method: :get, class: "btn btn-info" %></td>
       <td><%= account.balance %></td>
       <td><%= account.currency_code %></td>
     </tr> 

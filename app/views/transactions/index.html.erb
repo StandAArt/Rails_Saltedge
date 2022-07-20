@@ -1,0 +1,13 @@
+<div class="row d-flex justify-content-center">
+  <div class="col-11 text-center">
+    <h1>Account <%= @account.name %></h1>
+    <h3>Transactions</h3>
+  </div>
+  <hr/>
+
+  <div class="col-11">
+    <%= render 'transactions/transaction' %>
+  </div>
+</div>
+
+

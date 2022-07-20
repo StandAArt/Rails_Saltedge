@@ -1,7 +1,7 @@
 module AccountsHelper
 
-    def self.create_update_accounts_for_connection(connection_string_id, api_call_number)
-         response = ApiHelper.get_accounts_api_request(connection_string_id)
+    def self.create_update_accounts_for_connection(connection_string_id, api_call_number, from_id = nil)
+         response = ApiHelper.get_accounts_api_request(connection_string_id, from_id)
          
          if !response["data"].present? && api_call_number < Max_Api_Call_Number
             api_call_number += 1
@@ -17,6 +17,11 @@ module AccountsHelper
             Account.where(connection_id: connection.id).all.each do |account|
                TransactionsHelper.create_update_transactions_for_accounts(connection_string_id, account.account_string_id, account.id, 4)
             end
+         end
+
+         if response["meta"]["next_page"].present?
+            create_update_accounts_for_connection(connection_string_id, api_call_number, response["meta"]["next_id"])
+            return
          end
 
          return response

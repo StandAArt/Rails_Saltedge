@@ -73,16 +73,31 @@ module ApiHelper
     generate_and_send_api_request("DELETE", uri, body)
   end
 
-  def self.get_accounts_api_request(connection_id)
+  def self.get_accounts_api_request(connection_id, from_id = nil)
     path = "#{SALTEDGE}/accounts?connection_id=#{connection_id}"
+    
+    if from_id.present?
+      path += "&from_id=#{from_id}"
+    end
+
     uri = URI.parse(path) 
     generate_and_send_api_request("GET", uri)
   end
 
-  def self.get_transactions_api_request(connection_id, account_id)
+  def self.get_transactions_api_request(connection_id, account_id, from_id = nil)
     path = "#{SALTEDGE}/transactions?connection_id=#{connection_id}&account_id=#{account_id}"
+
+    if from_id.present?
+      path += "&from_id=#{from_id}"
+    end
+    
     uri = URI.parse(path) 
     generate_and_send_api_request("GET", uri)
+  end
+
+  def self.get_next_page_set_of_entity_api(path)
+    uri = URI.parse(path)
+    generate_and_send_api_request("GET", uri) 
   end
 
 private
