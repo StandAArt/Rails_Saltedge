@@ -13,7 +13,7 @@ module ApiHelper
       generate_and_send_api_request("POST", uri, body)
   end 
 
-  def self.create_connection(customer_id, customer_secret, country_code, provider_code)
+  def self.create_connection(customer_id, country_code, provider_code)
     uri = URI.parse("#{SALTEDGE}/connections")
    
     body = JSON.generate({
@@ -23,7 +23,7 @@ module ApiHelper
         "provider_code" => provider_code,
         "include_fake_providers" => true,
         "consent" => {
-          "from_date" => Time.now.strftime("%Y/%m/%d"),
+          "from_date" => Time.now.utc.strftime("%Y/%m/%d"),
           "scopes" => [
             "account_details",
             "transactions_details"
@@ -36,10 +36,10 @@ module ApiHelper
       }
     })
     
-    generate_and_send_api_request("POST", uri, body, customer_secret)
+    generate_and_send_api_request("POST", uri, body)
   end
   
-  def self.refresh_or_reconnect_connection(connection_id, customer_secret, connection_secret, perform_action)
+  def self.refresh_or_reconnect_connection(connection_id, perform_action)
     uri = perform_action == "refresh" ? URI.parse("#{SALTEDGE}/connection/refresh") : URI.parse("#{SALTEDGE}/connection/reconnect")
 
     body = JSON.generate({
@@ -58,10 +58,10 @@ module ApiHelper
       }
     })
  
-    generate_and_send_api_request("PUT", uri, body, customer_secret, connection_secret)
+    generate_and_send_api_request("PUT", uri, body)
   end
 
-  def self.remove_connection(connection_id, customer_secret, connection_secret)
+  def self.remove_connection(connection_id)
     uri = URI.parse("#{SALTEDGE}/connection") 
    
     body = JSON.generate({
@@ -70,15 +70,23 @@ module ApiHelper
       }
     })
 
-    generate_and_send_api_request("DELETE", uri, body, customer_secret, connection_secret)
+    generate_and_send_api_request("DELETE", uri, body)
   end
 
-  def self.get_accounts()
+  def self.get_accounts_api_request(connection_id)
+    path = "#{SALTEDGE}/accounts?connection_id=#{connection_id}"
+    uri = URI.parse(path) 
+    generate_and_send_api_request("GET", uri)
+  end
 
+  def self.get_transactions_api_request(connection_id, account_id)
+    path = "#{SALTEDGE}/transactions?connection_id=#{connection_id}&account_id=#{account_id}"
+    uri = URI.parse(path) 
+    generate_and_send_api_request("GET", uri)
   end
 
 private
-  def self.generate_and_send_api_request(methodType, uri, body, customer_secret = nil, connection_secret = nil)
+  def self.generate_and_send_api_request(methodType, uri, body = nil)
     request = Net::HTTP::Get.new(uri)
 
     case methodType
@@ -95,15 +103,10 @@ private
     request["App-Id"] = App_Id
     request["Secret"] = Secret
 
-    if(customer_secret != nil)
-      request["Customer-secret"] = customer_secret
+    if(body != nil)
+      request.body = body
     end
-
-    if(connection_secret != nil)
-      request["Connection-secret"] = connection_secret
-    end
-
-    request.body = body
+    
     req_options = {
       use_ssl: uri.scheme == "https",
     }

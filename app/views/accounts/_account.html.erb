@@ -1,0 +1,27 @@
+<table class="table">
+<thead>
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Name</th>
+    <th scope="col">Nature</th>
+    <th scope="col">Transactions</th>
+    <th scope="col">Balance</th>
+    <th scope="col">Currency</th>
+  </tr>
+</thead>
+
+<tbody>
+<% @connection.accounts.each do |account| %>
+    <tr>
+      <th scope="row"><%= account.account_string_id %></th>
+      <td><%= account.name %></td>
+      <td><%= account.nature %></td>
+      <td><%= account.transactions.count %></td>
+      <td><%= account.balance %></td>
+      <td><%= account.currency_code %></td>
+    </tr> 
+  <% end %>
+ 
+</tbody>
+</table>
+

@@ -10,7 +10,11 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :customers do
-    resources :connections
+    resources :connections do
+      resources :accounts do
+        resources :transactions
+      end
+    end
   end
   # Defines the root path route ("/")
   # root "articles#index"
