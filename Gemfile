@@ -30,6 +30,7 @@ gem "debug"
 gem 'pry'
 gem 'pry-remote'
 gem 'pry-nav'
+gem 'rufus-scheduler'
 
 group :development do
   gem "web-console"

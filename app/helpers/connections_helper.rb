@@ -43,4 +43,15 @@ module ConnectionsHelper
             connection_string_id: response["data"]["id"]
           )
     end
+
+    def self.refresh_connections
+        Connection.all.each do |connection|
+            response = ApiHelper.refresh_or_reconnect_connection(connection.connection_string_id, "refresh")
+            
+            if !response["error"].present?
+                update_connection_with_api_result_data(connection.id, response)
+                AccountsHelper.create_update_accounts_for_connection(connection.connection_string_id, 4)
+            end
+        end
+    end
 end
