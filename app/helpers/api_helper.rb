@@ -30,12 +30,13 @@ module ApiHelper
           ]
         },
         "credentials" => {
-          "login" => "username",
-          "password" => "secret"
+          "login" => "username123",
+          "password" => "secret",
+          "sms" => "123456"
         }
       }
     })
-    
+
     generate_and_send_api_request("POST", uri, body)
   end
   

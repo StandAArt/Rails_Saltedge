@@ -1,6 +1,6 @@
 <div class="row d-flex justify-content-center">
   <div class="col-11 text-center">
-    <h1>Customer <%= @customer.identifier %></h1>
+    <h1>Customer <%= link_to "#{@customer.identifier}", root_path %></h1></td>
     <h3>Connections</h3>
     <%= button_to "Create", new_customer_connection_path(@customer.id), method: :get, class: 'btn btn-info'%>
   </div>

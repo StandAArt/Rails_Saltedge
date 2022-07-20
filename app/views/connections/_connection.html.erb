@@ -2,14 +2,13 @@
 <thead>
   <tr>
     <th scope="col">Id</th>
-    <th scope="col">Secret</th>
+    <th scope="col">Customer Id</th>
+    <th scope="col">Customer identifier</th>
     <th scope="col">Provider name</th>
-    <th scope="col">Last success at</th>
-    <th scope="col">Updated at</th>
     <th scope="col">Status</th>
-    <th scope="col">Country code</th>
-    <th scope="col">Actions</th>
+    <th scope="col">Updated at</th>
     <th scope="col">Accounts</th>
+    <th scope="col">Actions</th>
   </tr>
 </thead>
 
@@ -17,12 +16,12 @@
 <% @customer.connections.each do |connection| %>
     <tr>
       <th scope="row"><%= connection.connection_string_id %></th>
-      <td><%= connection.secret %></td>
+      <td><%= @customer.customer_string_id %></td>
+      <td><%= @customer.identifier %></td>
       <td><%= connection.provider_name %></td>
-      <td><%= connection.last_success_at %></td>
-      <td><%= connection.updated_at %></td>
       <td><%= connection.status %></td>
-      <td><%= connection.country_code %></td>
+      <td><%= connection.updated_at %></td>
+      <td><%= button_to "#{connection.accounts.count}", customer_connection_accounts_path(@customer.id, connection.id), method: :get, class: "btn btn-info" %></td>
       <td>
        <ul class="list-inline">
         <li class="list-inline-item">
@@ -36,7 +35,6 @@
          <li>
       </ul>
       </td>
-      <td><%= button_to "#{connection.accounts.count}", customer_connection_accounts_path(@customer.id, connection.id), method: :get, class: "btn btn-info" %></td>
     </tr> 
   <% end %>
  

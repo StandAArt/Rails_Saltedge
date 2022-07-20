@@ -1,6 +1,6 @@
 <div class="row d-flex justify-content-center">
   <div class="col-11 text-center">
-    <h1>Account <%= @account.name %></h1>
+    <h1>Account <%= link_to "#{@account.name}", customer_connection_accounts_path(params[:customer_id], params[:connection_id], @account.id) %></h1>
     <h3>Transactions</h3>
   </div>
   <hr/>

@@ -1,6 +1,6 @@
 <div class="row d-flex justify-content-center">
   <div class="col-11 text-center">
-    <h1>Connection <%= @connection.connection_string_id %></h1>
+    <h1>Connection <%= link_to "#{@connection.connection_string_id}", customer_connections_path(@customer.id, @connection.id) %></h1>
     <h3>Accounts</h3>
   </div>
   <hr/>

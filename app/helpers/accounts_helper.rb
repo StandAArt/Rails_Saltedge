@@ -5,7 +5,7 @@ module AccountsHelper
          
          if !response["data"].present? && api_call_number < Max_Api_Call_Number
             api_call_number += 1
-            sleep(5)
+            sleep(3)
             create_update_accounts_for_connection(connection_string_id, api_call_number)
          end
 
