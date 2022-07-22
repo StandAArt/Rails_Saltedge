@@ -6,20 +6,13 @@ class CustomersController < ApplicationController
      def create 
        @user = current_user      
 
-      if Customer.where(:identifier => customer_params["identifier"]).blank?
+      if CustomersHelper.customer_not_exists_in_db(customer_params["identifier"])
         response = ApiHelper.create_customer(customer_params["identifier"])
      
         if response["error"].present?
           redirect_to new_customer_path, alert: response["error"]["message"]
         else
-          @customer = Customer.new(
-            identifier: response["data"]["identifier"],
-            secret: response["data"]["secret"],
-            user_id: @user.id,
-            customer_string_id: response["data"]["id"]
-          )
-
-          @customer.save
+          CustomersHelper.create_customer_api_response(response, @user.id)
           redirect_to root_path
         end
        
