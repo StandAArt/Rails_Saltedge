@@ -15,7 +15,7 @@ RSpec.describe ConnectionsController, type: :controller do
   end
 
   describe '#new' do
-    it 'asd' do
+    it 'should get the connection for the new connection form' do
       params = { 'customer_id' => customer.id }
 
       post :new, params: params
@@ -28,7 +28,7 @@ RSpec.describe ConnectionsController, type: :controller do
   describe '#create' do
     let!(:params) { { 'customer_id' => customer.id.to_s, 'country_code' => 'XF', 'provider_code' => 'fake_bank_xf' } }
 
-    it 'asd' do
+    it 'redirects to new page because the connection already exists in db' do
       expect(ConnectionsHelper)
         .to receive(:find_connection_in_db)
         .with(params)
@@ -40,7 +40,7 @@ RSpec.describe ConnectionsController, type: :controller do
       expect(subject.request.flash['alert']).to eq("Connection with Id = '1111' already exists")
     end
 
-    it 'asdd' do
+    it 'redirects to new page because the connection already exists in api response' do
       data = {
         'error' => {
           'message' => "Connection with identifier '1111' already exists"
@@ -62,7 +62,7 @@ RSpec.describe ConnectionsController, type: :controller do
       expect(subject.request.flash['alert']).to eq(data['error']['message'])
     end
 
-    it 'asddd' do
+    it 'create new connection with accounts and transactions' do
       response = {
         'data' => {
           'id' => '1111'

@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       super
     else
-      redirect_to login_path, notice: 'if you want to add a notice'
+      redirect_to login_path
     end
   end
 end
