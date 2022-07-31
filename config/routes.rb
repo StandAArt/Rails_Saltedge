@@ -4,10 +4,10 @@ Rails.application.routes.draw do
   }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   authenticated :user do
-    root 'user#show', :as => :authenticated_root
+    root 'user#show', as: :authenticated_root
   end
 
-  root "home#index"
+  root 'home#index'
 
   resources :customers do
     resources :connections do
