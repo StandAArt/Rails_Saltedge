@@ -6,7 +6,7 @@ class CustomersController < ApplicationController
      def create 
        @user = current_user      
 
-      if CustomersHelper.customer_not_exists_in_db(customer_params["identifier"])
+       if CustomersHelper.customer_not_exists_in_db(customer_params["identifier"])
         response = ApiHelper.create_customer(customer_params["identifier"])
      
         if response["error"].present?

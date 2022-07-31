@@ -19,7 +19,7 @@ module AccountsHelper
             end
          end
 
-         if response["meta"]["next_page"].present?
+         if response["meta"].present? && response["meta"]["next_page"].present?
             create_update_accounts_for_connection(connection_string_id, api_call_number, response["meta"]["next_id"])
             return
          end

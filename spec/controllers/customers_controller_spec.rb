@@ -9,50 +9,53 @@ RSpec.describe CustomersController, type: :controller do
     end
 
     describe "#create" do
-        let(:customer) {
-            @customer = Customer.new(
+        let!(:customer) {
+            Customer.new(
                 identifier: "1",
                 secret: "secret",
                 user_id: 1) 
         }
+        let!(:params) {
+            {"customer" => {"identifier" => "1"}}
+        }
+
 
         it "create new Customer if doesn't exist" do
-            identifier = "1"
+            params = {"customer" => {"identifier" => "1"}}
 
             response = {
                 "data" => {
-                    "identifier" => identifier,
+                    "identifier" => "1",
                     "secret"     => "secret"
                 }
             }
 
-            allow(ApiHelper)
+            expect(ApiHelper)
                 .to receive(:create_customer)
-                .with(identifier)
+                .with(params["customer"]["identifier"])
                 .and_return(response)
             
-            allow(CustomersHelper)
+            expect(CustomersHelper)
                 .to receive(:create_customer_api_response)
                 .with(response, 1)
                 .and_return(customer)
 
-            expect(customer.identifier).to eq(identifier)
-            expect(customer.secret).to eq("secret")
+            post :create, params: identifier
         end
-    end
 
-    describe "#create" do
         it "could not create a customer that exists in db" do
-            identifier = {"identifier"=>"1"}
+            params = {"customer" => {"identifier" => "1"}}
 
-            allow(CustomersHelper)
+            expect(CustomersHelper)
                  .to receive(:customer_not_exists_in_db)
-                 .with(identifier["identifier"])
+                 .with(params["customer"]["identifier"])
                  .and_return(false)
-        end
-    end
 
-    describe "#create" do
+            post :create, params: params
+
+            expect(subject).to redirect_to "http://test.host/customers/new"
+        end
+
         it "could not create a customer that do not exists in Db but is in api resonse" do
             data = {
                 "error"=> {
@@ -60,12 +63,14 @@ RSpec.describe CustomersController, type: :controller do
                 }
             }
 
-            allow(ApiHelper)
+            expect(ApiHelper)
               .to receive(:create_customer)
-              .with("1")
+              .with(params["customer"]["identifier"])
               .and_return(data)
 
-            expect(ApiHelper.create_customer("1")).to eq(data)
+            post :create, params: params
+            
+            expect(subject.request.flash["alert"]).to eq(data["error"]["message"])
         end
     end
 end
