@@ -14,7 +14,7 @@ module AccountsHelper
          if !response["error"].present? && connection.present?
             create_update_account_in_db(connection.id, response)
             
-            Account.where(connection_id: connection.id).all.each do |account|
+            Account.where(connection_id: connection.id).each do |account|
                TransactionsHelper.create_update_transactions_for_accounts(connection_string_id, account.account_string_id, account.id, 4)
             end
          end
@@ -24,26 +24,25 @@ module AccountsHelper
             return
          end
 
-         return response
+       response
     end
 
     def self.create_update_account_in_db(connection_id, response)
       response["data"].each do |data|
-         @account = Account.where(account_string_id: data["id"]).first_or_initialize
-         
-             if @account.present?
-                @account.name                       = data["name"]
-                @account.nature                     = data["nature"]
-                @account.balance                    = data["balance"]
-                @account.currency_code              = data["currency_code"]
-                @account.cards                      = data["cards"]
-                @account.posted_transactions_count  = data["posted_transactions_count"]
-                @account.pending_transactions_count = data["pending_transactions_count"]
-                @account.connection_id              = connection_id
-                @account.account_string_id          = data["id"]
+         account = Account.where(account_string_id: data["id"]).first_or_initialize
+             if account.present?
+                account.name                       = data["name"]
+                account.nature                     = data["nature"]
+                account.balance                    = data["balance"]
+                account.currency_code              = data["currency_code"]
+                account.cards                      = data["cards"]
+                account.posted_transactions_count  = data["posted_transactions_count"]
+                account.pending_transactions_count = data["pending_transactions_count"]
+                account.connection_id              = connection_id
+                account.account_string_id          = data["id"]
                 
              else
-               @account = Account.create(
+               account.create!(
                 name:                       data["name"],
                 nature:                     data["nature"],
                 balance:                    data["balance"],
@@ -56,7 +55,7 @@ module AccountsHelper
                 )
              end
 
-             @account.save
+             account.save
           
          end
       end

@@ -74,12 +74,10 @@ module ApiHelper
     generate_and_send_api_request("DELETE", uri, body)
   end
 
-  def self.get_accounts_api_request(connection_id, from_id = nil)
+  def self.get_accounts_api_request(connection_id, from_id=nil)
     path = "#{SALTEDGE}/accounts?connection_id=#{connection_id}"
     
-    if from_id.present?
-      path += "&from_id=#{from_id}"
-    end
+    path += "&from_id=#{from_id}" if from_id.present?
 
     uri = URI.parse(path) 
     generate_and_send_api_request("GET", uri)
@@ -88,9 +86,7 @@ module ApiHelper
   def self.get_transactions_api_request(connection_id, account_id, from_id = nil)
     path = "#{SALTEDGE}/transactions?connection_id=#{connection_id}&account_id=#{account_id}"
 
-    if from_id.present?
-      path += "&from_id=#{from_id}"
-    end
+      path += "&from_id=#{from_id}" if from_id.present?
     
     uri = URI.parse(path) 
     generate_and_send_api_request("GET", uri)
@@ -103,7 +99,7 @@ module ApiHelper
 
 private
   def self.generate_and_send_api_request(methodType, uri, body = nil)
-    request = Net::HTTP::Get.new(uri)
+   
 
     case methodType
     when "POST"
@@ -112,6 +108,8 @@ private
       request = Net::HTTP::Put.new(uri)
     when "DELETE"
       request = Net::HTTP::Delete.new(uri)
+    else
+      request = Net::HTTP::Get.new(uri)
     end
 
     request.content_type = "application/json"
@@ -119,17 +117,15 @@ private
     request["App-Id"] = App_Id
     request["Secret"] = Secret
 
-    if(body != nil)
-      request.body = body
-    end
+    request.body = body if body != nil
     
     req_options = {
       use_ssl: uri.scheme == "https",
     }
 
      Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-     response = http.request(request)
-     JSON.parse(response.body)
+       response = http.request(request)
+       JSON.parse(response.body)
      end
   end
 end
