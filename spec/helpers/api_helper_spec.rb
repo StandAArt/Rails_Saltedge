@@ -1,9 +1,9 @@
 require 'rails_helper'
 RSpec.describe ApiHelper do
-  it 'sosati' do
+  it 'get the api response to create a customer' do
     identifier = '123'
 
-    expect(Net::HTTP).to receive(:start).and_return({ asd: 'asd' }.to_json)
-    expect(described_class.create_customer(identifier)).to eq({ asd: 'asd' }.to_json)
+    expect(Net::HTTP).to receive(:start).and_return({ identifier: identifier }.to_json)
+    expect(described_class.create_customer(identifier)).to eq({ identifier: identifier }.to_json)
   end
 end
