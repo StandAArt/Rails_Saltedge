@@ -30,9 +30,8 @@ module ApiHelper
                                ]
                              },
                              'credentials' => {
-                               'login' => 'username123',
-                               'password' => 'secret',
-                               'sms' => '123456'
+                               'login' => 'username',
+                               'password' => 'secret'
                              }
                            }
                          })
